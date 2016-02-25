@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/lakulaba_prod/';
+$config['base_url'] = 'http://localhost/lakulaba_hackathon/';
 //$config['base_url'] = 'http://lakulaba.mybluemix.net/';
 //$config['base_url'] = '';
 

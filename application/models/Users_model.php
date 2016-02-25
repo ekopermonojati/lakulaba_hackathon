@@ -37,4 +37,11 @@ class Users_model extends CI_Model {
 		$query = $this->db->get_where('ll_users',array('id_sosmed'=>$id_sosmed));
 		return $query->num_rows();
 	}
+
+	public function get_user_data($id='')
+	{
+		# code...
+		$query = $this->db->get_where('ll_users',array('id_sosmed'=>$id));
+		return $query->result();
+	}
 }

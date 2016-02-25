@@ -223,6 +223,87 @@ class Welcome extends CI_Controller {
 		$this->load->view('footer');
 	}
 	
+	public function edit_produk(){
+		$id_produk = $_GET['id'];
+		$data["data_produk"] = $this->produk->get_produk_id($id_produk);
+		$this->load->view('header');
+		//print_r($data);
+		$this->load->view('edit_produk',$data);
+		$this->load->view('footer');
+	}
+
+	public function setting_account()
+	{
+		# code...
+		$id_user = $this->session->userdata('user_id');
+		$this->load->model('Users_model');
+		$value = $this->Users_model->get_user_data($id_user);
+		$data['users'] = $value;
+		$this->load->view('header');
+		$this->load->view('setting_account',$data);
+		//print_r($data);
+		$this->load->view('footer');
+	}
+
+	public function proses_edit_account()
+	{
+		# code...
+		if ($this->session->userdata('is_login')=='true') {
+			$data = array(
+							'nama_toko' => $this->input->post('nama_toko'), 
+							'alamat' => $this->input->post('alamat'), 
+							'no_telepon' => $this->input->post('no_telepon')
+						);
+			$id_user = $this->session->userdata('user_id');
+
+			$this->db->where('id_sosmed',$id_user);
+			$update = $this->db->update('ll_users',$data);
+
+			if ($update) {
+				# code...
+				redirect('welcome/dashboard','location');
+			} else {
+				echo "gagal update";
+			}
+
+		} else {
+			redirect('welcome/dashboard','location');
+		}
+
+	}
+
+	public function proses_edit_produk()
+	{
+		# code...
+		if ($this->session->userdata('is_login')=='true') {
+			# code...
+			$url = $_SERVER['HTTP_REFERER'];
+			$a = explode("=", $url);
+
+			//print_r($a);
+			$data = array(
+							'nama_produk' => $this->input->post('nama_produk'), 
+							'deskripsi' => $this->input->post('deskripsi'), 
+							'harga_jual' => $this->input->post('harga_jual'), 
+							'biaya_pengiriman' => $this->input->post('biaya_pengiriman'), 
+							'stok' => $this->input->post('stok'), 
+							'status_jual' => $this->input->post('active') 
+						);
+			$this->db->where('id',$a[1]);
+			$update = $this->db->update('ll_produk',$data);
+
+			if ($update) {
+				# code...
+				redirect('welcome/dashboard','location');
+			} else {
+				echo "gagal update";
+			}
+
+		} else {
+			redirect('welcome/dashboard','location');
+		}
+	}
+	
 	public function random()
 	{
 		$length = 6;
@@ -305,7 +386,7 @@ class Welcome extends CI_Controller {
 			$this->input->post('no_telepon'),
 			$this->input->post('no_ecash')
 			);
-			$this->session->set_userdata('id_user', $$this->input->post('id_user'));
+			$this->session->set_userdata('id_user', $this->input->post('id_user'));
 			$this->dashboard();
 		}
 
