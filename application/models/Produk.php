@@ -43,6 +43,11 @@ class Produk extends CI_Model {
 			$query = $this->db->get_where('ll_produk', array('user_id'=>$user_id));
 			return $query->result();
 	}
+	public function get_produk_id($id_produk=0)
+	{
+			$query = $this->db->get_where('ll_produk', array('id'=>$id_produk,'user_id'=>$this->session->userdata('user_id')));
+			return $query->result();
+	}
 	public function find_sell_code($code='')
 	{
 		$query = $this->db->get_where('ll_produk',array('url_code'=>$code));
