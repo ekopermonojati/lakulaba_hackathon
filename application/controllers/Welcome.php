@@ -193,8 +193,8 @@ class Welcome extends CI_Controller {
 			   ll_transaksi.buyer_address,
 			   ll_transaksi.status,
 			   ll_produk.user_id
-				FROM lakulaba.ll_produk ll_produk
-				INNER JOIN lakulaba.ll_transaksi ll_transaksi
+				FROM ll_produk ll_produk
+				INNER JOIN ll_transaksi ll_transaksi
 				  ON (ll_produk.id = ll_transaksi.id_produk)
 				WHERE     (ll_transaksi.status = '1')
 				AND (ll_produk.user_id = '$id_user')";

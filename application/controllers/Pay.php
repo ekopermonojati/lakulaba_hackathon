@@ -60,10 +60,11 @@ class Pay extends CI_Controller {
 		$buyer_id = $result2[2];
 		$trx_id = $result2[3];
 		$status = preg_replace('/\s+/', '', $result2[4]);
-		
+		echo $url;
 		if (strcasecmp($status,'SUCCESS')==0) {
 			$sql = "update ll_transaksi set buyer_id='" . $buyer_id . "', status_return='" . $result . "', status=true, payment_method='eCash Mandiri' where id_trx='" . $trx_id . "'";
 			if($this->db->query($sql)){
+				
 				//kurangi kuota stock
 				$sql = "
 				SELECT ll_produk.id,
@@ -77,16 +78,17 @@ class Pay extends CI_Controller {
 			   ll_transaksi.buyer_request,
 			   ll_transaksi.order_number,
 			   ll_transaksi.payment_method,
+			   ll_transaksi.total_bayar,
 			   ll_transaksi.id_trx,
 			   ll_users.email,
 			   ll_users.nama_toko,
 			   ll_users.nama_pemilik,
 			   ll_users.alamat,
 			   ll_users.no_telepon
-				  FROM (lakulaba.ll_produk ll_produk
-						INNER JOIN lakulaba.ll_users ll_users
+				  FROM (ll_produk ll_produk
+						INNER JOIN ll_users ll_users
 						   ON (ll_produk.user_id = ll_users.id_sosmed))
-					   INNER JOIN lakulaba.ll_transaksi ll_transaksi
+					   INNER JOIN ll_transaksi ll_transaksi
 						  ON (ll_produk.id = ll_transaksi.id_produk)
 				 WHERE (ll_transaksi.id_trx = '$trx_id')";
 				$produk = $this->db->query($sql)->row();
@@ -114,21 +116,35 @@ class Pay extends CI_Controller {
 				//send email to seller & buyer
 				$seller_mail = "<p>Telah terjadi pembelian dengan informasi sebagai berikut :
 				<table>
-				<tr><td>Produk</td><td>$nama_produk</td></tr>
-				<tr><td>Jumlah Pembelian</td><td>$order_number</td></tr>
-				<tr><td>Nama Pembeli</td><td>$buyer_name</td></tr>
-				<tr><td>No Telepon</td><td>$buyer_phone</td></tr>
-				<tr><td>Email</td><td>$buyer_email</td></tr>
-				<tr><td>Alamat Pengiriman</td><td>$buyer_address</td></tr>
-				<tr><td>Kode Pos</td><td>$buyer_postal_code</td></tr>
-				<tr><td>Permintaan Khusus</td><td>$buyer_request</td></tr>
-				<tr><td>Total telah dibayar</td><td>$total_bayar</td></tr>
-				<tr><td>Metoda Bayar</td><td>$payment_method</td></tr>
+				<tr><td>Produk</td><td>:$nama_produk</td></tr>
+				<tr><td>Jumlah Pembelian</td><td>:$order_number</td></tr>
+				<tr><td>Nama Pembeli</td><td>:$buyer_name</td></tr>
+				<tr><td>No Telepon</td><td>:$buyer_phone</td></tr>
+				<tr><td>Email</td><td>:$buyer_email</td></tr>
+				<tr><td>Alamat Pengiriman</td><td>:$buyer_address</td></tr>
+				<tr><td>Kode Pos</td><td>:$buyer_postal_code</td></tr>
+				<tr><td>Permintaan Khusus</td><td>:$buyer_request</td></tr>
+				<tr><td>Total telah dibayar</td><td>:$total_bayar</td></tr>
+				<tr><td>Metoda Bayar</td><td>:$payment_method</td></tr>
 				</table>
 				<p>Demikian informasi dari lakulaba. Mohon agar segera diproses
 				";
-				$buyer_mail ="";
-				@ $this->sendgrid_mail->send_mail($seller_email, "Lakulaba", "Informasi transaksi lakulaba", $email_content);
+				$buyer_mail ="<p>Anda telah melakukan pembelian :
+				<table>
+				<tr><td>Produk</td><td>:$nama_produk</td></tr>
+				<tr><td>Nama Toko</td><td>:$nama_toko</td></tr>
+				<tr><td>Alamat Toko</td><td>:$alamat</td></tr>
+				<tr><td>Email Toko</td><td>:$seller_email</td></tr>
+				<tr><td>Telepon Toko</td><td>:$no_telepon</td></tr>
+				<tr><td>Produk</td><td>:$nama_produk</td></tr>
+				<tr><td>Jumlah Pembelian</td><td>:$order_number</td></tr>
+				<tr><td>Total telah dibayar</td><td>:$total_bayar</td></tr>
+				<tr><td>Metoda Bayar</td><td>:$payment_method</td></tr>
+				</table>
+				<p>Demikian informasi dari lakulaba. Mohon agar segera diproses";
+				echo $buyer_email;
+				@ $this->sendgrid_mail->send_mail($seller_email, "Lakulaba", "Informasi Penjualan Lakulaba", $seller_mail);
+				//@ $this->sendgrid_mail->send_mail($buyer_email, "$seller_email", "Informasi Pembelian di $nama_toko", $buyer_mail);
 				
 				$data['result'] = "Pembayaran sukses dilakukan. Terima Kasih";
 				$this->load->view('output',$data);

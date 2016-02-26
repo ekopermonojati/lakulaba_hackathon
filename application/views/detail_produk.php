@@ -14,8 +14,8 @@
 	<script src="<?php echo base_url('static/bootstrap-3.3.6/js/bootstrap.min.js') ?>" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>	
 </head>
 <div class="container" role="main">
-	<h1>Trx ID:<?php echo $trx_id ?></h1>
-	<h1>Product Detail</h1>
+	<h3>Trx ID:<?php echo $trx_id ?></h3>
+	<h3>Product Detail</h3>
 	
 	<?php 
 		foreach($produk->result() as $row){
@@ -54,7 +54,7 @@
 	</tr>
 	</table>
 	<?php echo form_open('Pay/payment'); ?>
-	<h1>Buyer & Shipment</h1>
+	<h3>Buyer & Shipment</h3>
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Full Name" aria-describedby="sizing-addon2" name="fullname">
 		</div>
@@ -67,7 +67,7 @@
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="sizing-addon2" name="postalcode">
 		</div>
-	<h1>Payment Method</h1>
+	<h3>Payment Method</h3>
 		<input type="radio" name="payment" value="1"> eCash Mandiri<br>
 		<input type="radio" name="payment" value="2" disabled="true"> Credit Card<br>
 		<input type="radio" name="payment" value="3" disabled="true"> ATM<br>

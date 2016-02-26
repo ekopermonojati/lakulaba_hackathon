@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'lakulaba',
+	'hostname' => 'us-cdbr-iron-east-03.cleardb.net',
+	'username' => 'b844e70bf88a35',
+	'password' => 'fe99d459',
+	'database' => 'ad_9f6610734de47de',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -94,3 +94,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
