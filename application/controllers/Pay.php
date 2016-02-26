@@ -11,10 +11,13 @@ class Pay extends CI_Controller {
 		$buyer_address = $this->input->post('address');
 		$buyer_postalcode = $this->input->post('postalcode');
 		$buyer_phone = $this->input->post('phone');
+		$buyer_email = $this->input->post('buyer_email');
+		$order_number = $this->input->post('order_number');
+		$buyer_request = $this->input->post('buyer_request');
 		$trx_id = $this->session->userdata('lakulaba_trx_id');
 		
 		//update data transaksi dengan identitas buyer
-		$sql = "update ll_transaksi set buyer_name='" . $buyer_name . "', buyer_address='" . $buyer_address . "', buyer_postal_code='" . $buyer_postalcode . "', buyer_phone='" . $buyer_phone . "' where id_trx='" . $trx_id . "'";
+		$sql = "update ll_transaksi set buyer_request='".$buyer_request."', order_number='".$order_number."', buyer_email='".$buyer_email."', buyer_name='" . $buyer_name . "', buyer_address='" . $buyer_address . "', buyer_postal_code='" . $buyer_postalcode . "', buyer_phone='" . $buyer_phone . "' where id_trx='" . $trx_id . "'";
 		if(!$this->db->query($sql)){
 			$data['result'] = "Gagal. Maaf, terjadi kesalahan teknis di server kami";
 			$this->load->view('output',$data);
@@ -28,7 +31,7 @@ class Pay extends CI_Controller {
 		$sql ="select * from ll_produk where id=" . $id_produk;
 		$result = $this->db->query($sql);
 		$produk = $result->row();
-		$total_Bayar = $produk->harga_jual + $produk->biaya_pengiriman;
+		$total_Bayar = ($produk->harga_jual*$order_number) + $produk->biaya_pengiriman;
 		
 		//Pay using IPG Mandiri
 		if ($pay_method==1) {
@@ -60,7 +63,7 @@ class Pay extends CI_Controller {
 		$buyer_id = $result2[2];
 		$trx_id = $result2[3];
 		$status = preg_replace('/\s+/', '', $result2[4]);
-		echo $url;
+		//echo $url;
 		if (strcasecmp($status,'SUCCESS')==0) {
 			$sql = "update ll_transaksi set buyer_id='" . $buyer_id . "', status_return='" . $result . "', status=true, payment_method='eCash Mandiri' where id_trx='" . $trx_id . "'";
 			if($this->db->query($sql)){
@@ -142,9 +145,9 @@ class Pay extends CI_Controller {
 				<tr><td>Metoda Bayar</td><td>:$payment_method</td></tr>
 				</table>
 				<p>Demikian informasi dari lakulaba. Mohon agar segera diproses";
-				echo $buyer_email;
+				//echo $buyer_email;
 				@ $this->sendgrid_mail->send_mail($seller_email, "Lakulaba", "Informasi Penjualan Lakulaba", $seller_mail);
-				//@ $this->sendgrid_mail->send_mail($buyer_email, "$seller_email", "Informasi Pembelian di $nama_toko", $buyer_mail);
+				@ $this->sendgrid_mail->send_mail($buyer_email, "$seller_email", "Informasi Pembelian di $nama_toko", $buyer_mail);
 				
 				$data['result'] = "Pembayaran sukses dilakukan. Terima Kasih";
 				$this->load->view('output',$data);
