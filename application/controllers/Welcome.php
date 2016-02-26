@@ -387,6 +387,7 @@ class Welcome extends CI_Controller {
 			$this->input->post('no_ecash')
 			);
 			$this->session->set_userdata('id_user', $this->input->post('id_user'));
+			$this->session->set_userdata('is_login', true);
 			$this->dashboard();
 		}
 
