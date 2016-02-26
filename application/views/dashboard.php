@@ -32,7 +32,13 @@
 						</button>
 						<ul class="dropdown-menu">
 						  <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="set_link('<?php echo base_url('l/l/' . $row->url_code) ?>')">Link</a></li>
-						  <li><a href="#">Facebook</a></li>
+						  <?php
+                              $description    = str_replace( " ", "+", $row->deskripsi . " Harga Rp.$row->harga_jual");
+                              $url_facebook    = "https://www.facebook.com/dialog/feed?app_id=198199360513157&display=popup&caption=by+lakulaba.com&link=".base_url('l/l/' . $row->url_code)."&redirect_uri=http://lakulaba.mybluemix.net/welcome/dashboard/".$description."&picture=".base_url('uploads/'.$row->gambar_produk);
+                        
+                                              //&picture=http://118.98.97.159/lakulaba/testimoni4.jpg"
+                          ?>
+						  <li><a href="<?php echo $url_facebook ?>" target="_blank">Facebook</a></li>
 						  <li><a href="#">Twitter</a></li>
 						</ul>
 					</div>

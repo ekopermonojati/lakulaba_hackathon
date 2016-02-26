@@ -27,7 +27,7 @@ class Produk extends CI_Model {
 		$this->harga_jual = $harga_jual;
 		$this->biaya_pengiriman = $biaya_pengiriman;
 		$this->stok = $stok;
-		$this->status = 0;
+		$this->status = 1;
 		$this->url_code = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
 		$this->user_id = $user_id;
 		$this->created_date = getdate();
