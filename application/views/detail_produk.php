@@ -56,16 +56,13 @@
 	<?php echo form_open('Pay/payment'); ?>
 	<h3>Buyer & Shipment</h3>
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Full Name" aria-describedby="sizing-addon2" name="fullname">
-		</div>
-		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Phone Number" aria-describedby="sizing-addon2" name="phone">
-		</div>
-		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Address" aria-describedby="sizing-addon2" name="address">
-		</div>
-		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="sizing-addon2" name="postalcode">
+			<input type="text" class="form-control" placeholder="Full Name" aria-describedby="sizing-addon2" name="fullname"><br>
+			<input type="text" class="form-control" placeholder="Phone Number" aria-describedby="sizing-addon2" name="phone"><br>
+			<input type="text" class="form-control" placeholder="Address" aria-describedby="sizing-addon2" name="address"><br>
+			<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="sizing-addon2" name="postalcode"><br>
+			<input type="text" class="form-control" placeholder="Email Pembeli" aria-describedby="sizing-addon2" name="buyer_email"><br>
+			<input type="text" class="form-control" placeholder="Jumlah Pembelian" aria-describedby="sizing-addon2" name="order_number"><br>
+			<input type="text" class="form-control" placeholder="Permintaan Khusus" aria-describedby="sizing-addon2" name="buyer_request">
 		</div>
 	<h3>Payment Method</h3>
 		<input type="radio" name="payment" value="1"> eCash Mandiri<br>

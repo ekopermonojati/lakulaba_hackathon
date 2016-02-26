@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$permissions = ['email']; // Optional permissions
 				$loginUrl = $helper->getLoginUrl($baseurl . 'welcome/login_callback', $permissions);
 				$fb_login_image = $baseurl . "static/fb_login.png";
-				echo "<a href=' htmlspecialchars($loginUrl)  '><img src='$fb_login_image' width='300px' ></a>";
+				echo "<a href='".htmlspecialchars($loginUrl)."'><img src='$fb_login_image' width='300px' ></a>";
 				?>
 				<br><a href="<?php echo base_url('welcome/login_tw')?>"><img src="<?php echo base_url('static/tw_login.png')?> " width='300px'></a>
 			</div>
